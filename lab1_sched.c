@@ -35,25 +35,28 @@
 /* Main methods */
 void print_result(Process w[], int p[][MAX]) {
     printf("   0");
-    for (int i=NUM; i<=MAX; i+=NUM)
+    for (int i=5; i<=MAX; i+=5)
         printf("%20d", i);
     printf("\n   ");
 
     for (int i=0; i<MAX; i++)
-        printf("|---");
-    printf("|\n");
+        printf("|───");
+    printf("│\n");
 
     for (int i=0; i<NUM; i++) {
-        printf("%c  ", w[i].name);
+        printf(" %c │", w[i].name);
         for (int j=0; j<MAX; j++)
             if (p[i][j])
-                //printf(" OOO");
-                printf("%3c ", i+'A');
+                if (j%5==4)
+                    printf("■■■│");
+                else
+                    printf("■■■■");
+            else if (j%5==4)
+                printf("   │");
             else
                 printf("    ");
         printf("\n");
     }
-    printf("\n");
 }
 
 void init_table(int t[NUM][MAX]) {
@@ -69,12 +72,8 @@ void qinit(Queue *q) {
 }
 
 void enqueue(Queue *q, int data){
-    if (((q->rear + 1) % NUM == q->front))
-        return;
-    else {
         q->rear = (q->rear + 1) % (NUM+1);    
         q->data[q->rear] = data;
-    }
 }
 
 int dequeue(Queue *q) {
@@ -112,7 +111,7 @@ void FIFO(Process w[], int t[NUM][MAX]) {
                 t[next][temp++] = 1;
         }
     }
-    printf("\t FIFO\n");
+    printf("\t 【First Come First Served】\n");
     print_result(w, t);
 }
 
@@ -135,7 +134,7 @@ void SJF(Process w[], int t[NUM][MAX]) {
         finish[next] = 1;
         run_time += min;
     }
-    printf("\t SJF\n");
+    printf("\t 【Shortest Process Next】\n");
     print_result(w, t);
 }
 
@@ -159,10 +158,10 @@ void RR(Process w[], int t[NUM][MAX], int quantum) {
                 enqueue(&queue,next);
             if(!qempty(&queue)) {
                 next = dequeue(&queue);
-                running = 0;
+                running = 0; 
             }
         }
-        if (running>=0) {
+        if (running >= 0) {
             t[next][run_time] = 1;
             remain[next]--;
             running++;
@@ -174,7 +173,7 @@ void RR(Process w[], int t[NUM][MAX], int quantum) {
             }
         }
     }
-    printf("\t RR (q = %d)\n", quantum);
+    printf("\t 【Round Robin】 (q = %d)\n", quantum);
     print_result(w, t);
 }
 
@@ -235,9 +234,9 @@ void MLFQ(Process w[], int t[NUM][MAX], int quant) {
 		}
 	}
     if (quant<0)
-        printf("\tMLFQ (q = %d^i)\n", -quant);
+        printf("\t【Multi Level Feedback Queue】 (q = %d^i)\n", -quant);
     else
-        printf("\t MLFQ (q = %d)\n", quant);
+        printf("\t【Multi Level Feedback Queue】 (q = %d)\n", quant);
     print_result(w, t);
 }
 
@@ -277,7 +276,7 @@ void Lottery(Process w[], int t[NUM][MAX]) {
         if (remain[next]<=0)
             job_is_in[next] = 0;
     }
-    printf("\t Lottery\n");
+    printf("\t 【Lottery】\n");
     print_result(w, t);
 }
 
@@ -309,6 +308,6 @@ void Stride(Process w[], int t[NUM][MAX]) {
         pass_val[min_idx] += stride[min_idx];   
     }
 
-    printf("\t Stride\n");
+    printf("\t 【Stride】\n");
     print_result(w, t);
 }
