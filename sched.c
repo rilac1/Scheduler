@@ -1,15 +1,3 @@
-/*
-*	DKU Operating System Lab
-*	    Lab1 (Scheduler Algorithm Simulator)
-*	    Student id : 32170078
-*	    Student name : 강정현
-*
-*   lab1_sched.c :
-*       - Lab1 source file.
-*       - Must contains scueduler algorithm function'definition.
-*
-*/
-
 #include <aio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +14,7 @@
 #include <pthread.h>
 #include <asm/unistd.h>
 
-#include "lab1_sched_types.h"
+#include "sched_types.h"
 
 /*
  * you need to implement FCFS, RR, SPN, SRT, HRRN, MLFQ scheduler. 
