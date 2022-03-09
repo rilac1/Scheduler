@@ -12,7 +12,6 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <pthread.h>
-#include <asm/unistd.h>
 
 #include "sched_types.h"
 
